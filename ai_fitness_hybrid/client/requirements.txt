@@ -1,0 +1,17 @@
+# Core
+numpy==1.24.4
+opencv-python==4.8.1.78
+
+# Pose
+mediapipe==0.10.21
+
+# ML / DL
+tensorflow==2.15.0
+scikit-learn==1.3.2
+
+# Utils
+pyttsx3==2.99
+requests==2.32.3
+
+# Stability (CRITICAL)
+protobuf>=4.25.3,<5
