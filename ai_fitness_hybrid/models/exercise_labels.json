@@ -1,0 +1,8 @@
+{
+    "bicep_curl": 0,
+    "lunge": 1,
+    "mountain_climber": 2,
+    "press": 3,
+    "pushup": 4,
+    "squat": 5
+}
