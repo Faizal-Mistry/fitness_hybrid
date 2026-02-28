@@ -14,22 +14,22 @@ class BaseRule:
 
 
 # ===============================
-# SQUAT
+# SQUAT (Balanced)
 # ===============================
 class SquatRule(BaseRule):
     def update(self, f):
         knee = f["knee_min"]
 
-        # Detect descent
-        if self.state == "START" and knee < 110:
+        # Start descent
+        if self.state == "START" and knee < 130:
             self.state = "DOWN"
 
-        # Ensure proper depth
-        elif self.state == "DOWN" and knee < 95:
+        # Bottom (not too strict)
+        elif self.state == "DOWN" and knee < 100:
             self.state = "BOTTOM"
 
-        # Count only after full extension
-        elif self.state == "BOTTOM" and knee > 165:
+        # Count when mostly extended
+        elif self.state == "BOTTOM" and knee > 155:
             self.rep_count += 1
             self.state = "START"
             return True
@@ -38,19 +38,19 @@ class SquatRule(BaseRule):
 
 
 # ===============================
-# PUSHUP
+# PUSHUP (Balanced)
 # ===============================
 class PushupRule(BaseRule):
     def update(self, f):
         elbow = f["elbow_min"]
 
-        if self.state == "START" and elbow < 140:
+        if self.state == "START" and elbow < 150:
             self.state = "DOWN"
 
-        elif self.state == "DOWN" and elbow < 90:
+        elif self.state == "DOWN" and elbow < 95:
             self.state = "BOTTOM"
 
-        elif self.state == "BOTTOM" and elbow > 160:
+        elif self.state == "BOTTOM" and elbow > 155:
             self.rep_count += 1
             self.state = "START"
             return True
@@ -65,13 +65,13 @@ class BicepCurlRule(BaseRule):
     def update(self, f):
         elbow = f["elbow_min"]
 
-        if self.state == "START" and elbow < 120:
+        if self.state == "START" and elbow < 130:
             self.state = "UP"
 
-        elif self.state == "UP" and elbow < 60:
+        elif self.state == "UP" and elbow < 70:
             self.state = "TOP"
 
-        elif self.state == "TOP" and elbow > 160:
+        elif self.state == "TOP" and elbow > 150:
             self.rep_count += 1
             self.state = "START"
             return True
@@ -80,19 +80,19 @@ class BicepCurlRule(BaseRule):
 
 
 # ===============================
-# LUNGE
+# LUNGE (Balanced)
 # ===============================
 class LungeRule(BaseRule):
     def update(self, f):
         knee = f["knee_min"]
 
-        if self.state == "START" and knee < 115:
+        if self.state == "START" and knee < 125:
             self.state = "DOWN"
 
-        elif self.state == "DOWN" and knee < 85:
+        elif self.state == "DOWN" and knee < 95:
             self.state = "BOTTOM"
 
-        elif self.state == "BOTTOM" and knee > 165:
+        elif self.state == "BOTTOM" and knee > 155:
             self.rep_count += 1
             self.state = "START"
             return True
@@ -101,19 +101,17 @@ class LungeRule(BaseRule):
 
 
 # ===============================
-# MOUNTAIN CLIMBER
+# MOUNTAIN CLIMBER (Stable)
 # ===============================
 class MountainClimberRule(BaseRule):
     def update(self, f):
         knee = f["knee_min"]
         knee_velocity = abs(f["left_knee_vel"]) + abs(f["right_knee_vel"])
 
-        # Detect strong knee drive
-        if self.state == "START" and knee < 120 and knee_velocity > 2:
+        if self.state == "START" and knee < 125 and knee_velocity > 1.5:
             self.state = "DRIVE"
 
-        # Leg returns to extension
-        elif self.state == "DRIVE" and knee > 160:
+        elif self.state == "DRIVE" and knee > 155:
             self.rep_count += 1
             self.state = "START"
             return True
@@ -122,18 +120,18 @@ class MountainClimberRule(BaseRule):
 
 
 # ===============================
-# SHOULDER PRESS
+# SHOULDER PRESS (Balanced)
 # ===============================
 class PressRule(BaseRule):
     def update(self, f):
         elbow = f["elbow_min"]
 
-        # Detect press start (elbow bent)
-        if self.state == "START" and elbow < 110:
+        # Bent at bottom
+        if self.state == "START" and elbow < 125:
             self.state = "PRESSING"
 
-        # Fully extended overhead
-        elif self.state == "PRESSING" and elbow > 165:
+        # Extended overhead
+        elif self.state == "PRESSING" and elbow > 155:
             self.rep_count += 1
             self.state = "START"
             return True
